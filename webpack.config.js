@@ -2,6 +2,7 @@
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 const WebpackShellPluginNext = require('webpack-shell-plugin-next');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 require('dotenv').config({ path: path.resolve(__dirname, `.env`) });
 
 const { NODE_ENV = 'production' } = process.env;
@@ -42,15 +43,20 @@ module.exports = {
         parallel: true,
       },
     }),
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: path.resolve(__dirname, 'crtx/mysql-ca.pem'), to: './crtx/mysql-ca.pem' },
+      ]
+    })
   ],
   resolve: {
     modules: ['node_modules'],
     extensions: ['.ts', '.js'],
     alias: {
+      'storage': path.resolve(__dirname, './src/storage/'),
+      'services': path.resolve(__dirname, './src/services/'),
+      'shared': path.resolve(__dirname, './src/shared/'),
       'config': path.resolve(__dirname, './config/'),
-      'models': path.resolve(__dirname, './models/'),
-      'services': path.resolve(__dirname, './services/'),
-      'shared': path.resolve(__dirname, './shared/'),
     },
   },
 };
