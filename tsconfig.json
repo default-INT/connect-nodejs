@@ -13,13 +13,15 @@
     "baseUrl": ".",
     "paths": {
       "config": ["config/*"],
+
       "services": ["src/services/"],
       "services/*": ["src/services/*"],
 
       "storage": ["src/storage"],
       "storage/*": ["src/storage/*"],
 
-      "shared": ["src/shared/*"]
+      "shared/*": ["src/shared/*"]
     }
-  }
+  },
+  "exclude": ["node_modules"]
 }
