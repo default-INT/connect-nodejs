@@ -1,5 +1,5 @@
 import { User } from 'storage/entities/User';
-import { IUserDto } from 'services/auth/dto.types';
+import { IUserDto } from 'services/auth/dto/res/IUserDto';
 
 export const mapToUserDto = (user: User): IUserDto => ({
     id: user.id,

@@ -4,16 +4,40 @@ import { clients } from 'shared/config/clients';
 import { dataSource } from 'storage';
 import { User } from 'storage/entities/User';
 import { tokenUtils } from 'shared/utils/tokenUtils';
-import { ITokensDto } from 'services/auth/dto.types';
+import { ITokensDto } from 'services/auth/dto/res/ITokensDto';
+import { IGoogleSignIn } from 'services/auth/dto/req/IGoogleSignIn';
 
 const oauth2Client = new OAuth2Client();
 
-export interface IGoogleSignIn {
-  idToken?: string | null;
-}
-
 type TGoogleSignInMethod = RequestHandler<{}, ITokensDto | string, IGoogleSignIn>;
 
+/**
+ * @swagger
+ * /api/auth/google:
+ *   post:
+ *     summary: Sign in by google
+ *     tags: [auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/IGoogleSignIn'
+ *     responses:
+ *       200:
+ *         description: The created book.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ITokensDto'
+ *       400:
+ *         description: Invalid token id
+ *       403:
+ *         description: Validation error
+ *       500:
+ *         description: Some server error
+ *
+ */
 export const googleSignIn: TGoogleSignInMethod = async (req, res) => {
   const { idToken } = req.body || {};
 
@@ -26,12 +50,9 @@ export const googleSignIn: TGoogleSignInMethod = async (req, res) => {
 
   const payload = ticket.getPayload();
   const googleId = payload?.sub;
-  if (!googleId) return res.status(400).send('Unable to get google id');
+  if (!googleId) return res.status(403).send('Validation error');
   const userRepository = dataSource.getRepository(User);
-
-  const user = await userRepository.findOneBy({
-    googleId,
-  });
+  const user = await userRepository.findOneBy({ googleId });
 
   if (!user) {
     const { email, id } = await userRepository.save({

@@ -27,7 +27,7 @@ module.exports = {
         use: [
           'ts-loader',
         ]
-      }
+      },
     ]
   },
   plugins: [
