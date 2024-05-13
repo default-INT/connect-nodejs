@@ -2,11 +2,17 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
+    "sourceMap": true,
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
     "module": "commonjs",
     "strictPropertyInitialization": false,
     "target": "es6",
     "rootDir": "./",
+    "noImplicitAny": false,
     "emitDecoratorMetadata": true,
+    "forceConsistentCasingInFileNames": true,
     "experimentalDecorators": true,
     "outDir": "./build",
     "strict": true,
@@ -23,5 +29,6 @@
       "shared/*": ["src/shared/*"]
     }
   },
+  "include": ["src", "config"],
   "exclude": ["node_modules"]
 }

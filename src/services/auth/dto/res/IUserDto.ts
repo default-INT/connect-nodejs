@@ -6,10 +6,3 @@ export interface IUserDto {
   lastName: string | null;
   avatar: string | null;
 }
-
-export interface ITokensDto {
-  accessToken: string;
-  refreshToken: string;
-  accessExpiredAt: string;
-  refreshExpiredAt: string;
-}
