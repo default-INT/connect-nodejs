@@ -29,6 +29,6 @@
       "shared/*": ["src/shared/*"]
     }
   },
-  "include": ["src", "config"],
+  "include": ["src", "config", "index.ts"],
   "exclude": ["node_modules"]
 }
