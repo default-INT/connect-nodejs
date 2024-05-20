@@ -7,23 +7,24 @@ import bodyParser from 'body-parser';
 import { dataSource } from 'storage';
 import { app } from 'config/app';
 import { api } from 'services/api';
+import { loggerMiddleware } from 'shared/middlewares/loggerMiddleware';
+import { cliLogger } from 'shared/utils/logger/cliLogger';
 
 const port = process.env.PORT || 3001;
 
 (async () => {
   dataSource.initialize()
     .then(() => {
-      // eslint-disable-next-line no-console
-      console.log('DB initialized');
+      cliLogger.info('DB initialized');
     })
     .catch(error => {
-      // eslint-disable-next-line no-console
-      console.log(error);
+      cliLogger.error(error);
     });
 
   const specs = await swaggerJSDocs();
 
   app.use(bodyParser.json());
+  app.use(loggerMiddleware);
   app.use('/api', api);
   app.use(
     '/swagger',
@@ -32,7 +33,6 @@ const port = process.env.PORT || 3001;
   );
 
   app.listen(port, () => {
-    // eslint-disable-next-line no-console
-    console.log(`Connect app listening on port ${port}`);
+    cliLogger.info(`Connect app listening on port ${port}`);
   });
 })();
