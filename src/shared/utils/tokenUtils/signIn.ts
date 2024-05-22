@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { jwtSecrets } from 'shared/config/jwt';
 import { IUserJwt } from 'shared/types/user';
-import { ITokensDto } from 'services/auth/dto/res/ITokensDto';
+import { ITokensDto } from 'shared/dto/ITokensDto';
 import { date } from 'shared/utils/date';
 import { AddDateType } from 'shared/utils/date/add/add';
 

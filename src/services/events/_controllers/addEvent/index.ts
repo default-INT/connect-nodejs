@@ -1,0 +1,1 @@
+export { addEvent } from './addEvent';
