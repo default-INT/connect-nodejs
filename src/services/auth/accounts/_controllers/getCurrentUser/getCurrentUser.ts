@@ -1,9 +1,8 @@
 import { RequestHandler } from 'express';
-import { IUserDto } from 'services/auth/dto/res/IUserDto';
-import { IRequest } from 'shared/types/http';
 import { dataSource } from 'storage';
 import { User } from 'storage/entities/User';
-import { mapToUserDto } from 'services/auth/utils/mapToUserDto';
+import { IUserDto } from './dto/IUserDto';
+import { mapToUserDto } from './utils/mapToUserDto';
 
 type TGetCurrentUserMethod = RequestHandler<{}, IUserDto | string>;
 
@@ -15,7 +14,6 @@ type TGetCurrentUserMethod = RequestHandler<{}, IUserDto | string>;
  *     tags: [accounts]
  *     responses:
  *       200:
- *         description: The created book.
  *         content:
  *           application/json:
  *             schema:
@@ -25,7 +23,7 @@ type TGetCurrentUserMethod = RequestHandler<{}, IUserDto | string>;
  *       500:
  *         description: Some server error
  */
-export const getCurrentUser: TGetCurrentUserMethod = async (req: IRequest, res) => {
+export const getCurrentUser: TGetCurrentUserMethod = async (req, res) => {
   const { currentUser } = req;
   if (!currentUser) return res.status(400).json('Current user does not exist');
   const userRepository = dataSource.getRepository(User);

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getCurrentUser } from './methods/getCurrentUser';
+import { getCurrentUser } from './_controllers/getCurrentUser';
 
 export const accounts = Router();
 

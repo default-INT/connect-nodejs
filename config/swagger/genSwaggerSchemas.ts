@@ -8,7 +8,7 @@ const compilerOptions = {
 
 // TODO: Think about static generate destinations
 export const genSwaggerSchemas = async () => {
-  const files = await glob('./src/**/dto/**/*.ts', { ignore: 'node_modules/**' });
+  const files = await glob('./src/**/dto/*.ts', { ignore: 'node_modules/**' });
   const program = getProgramFromFiles(files, compilerOptions, './');
 
   const schemas = generateSchema(program, '*', {

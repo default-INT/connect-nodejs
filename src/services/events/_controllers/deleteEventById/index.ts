@@ -1,0 +1,1 @@
+export { deleteEventById } from './deleteEventById';

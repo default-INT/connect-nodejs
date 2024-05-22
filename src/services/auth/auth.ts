@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { authMiddleware } from 'shared/middlewares/authMiddleware';
-import { googleSignIn } from './methods/googleSignIn';
+import { googleSignIn } from './_controllers/googleSignIn';
 import { accounts } from './accounts';
 
 export const auth = Router();

@@ -1,11 +1,10 @@
-import { NextFunction, Response } from 'express';
+import { NextFunction, Response, Request } from 'express';
 import { tokenUtils } from 'shared/utils/tokenUtils';
-import { IRequest } from 'shared/types/http';
 import { IUserJwt } from 'shared/types/user';
 
 const KEY_WORD = 'Bearer';
 
-export const authMiddleware = (req: IRequest, res: Response, next: NextFunction) => {
+export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
   const authorization = req?.headers.authorization as string;
   if (!authorization?.includes(KEY_WORD)) {
     return res.status(400)

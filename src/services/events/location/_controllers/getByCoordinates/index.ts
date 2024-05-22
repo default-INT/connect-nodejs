@@ -1,0 +1,1 @@
+export { getByCoordinates } from './getByCoordinates';

@@ -1,4 +1,5 @@
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
+import { Event } from 'storage/entities/Event';
 import { BaseEntity } from './BaseEntity';
 
 @Entity({ name: 'users' })
@@ -26,4 +27,7 @@ export class User extends BaseEntity {
 
   @Column({ type: 'boolean', default: false })
   isDeleted: boolean;
+
+  @OneToMany(() => Event, event => event.owner)
+  myEvents: Event[];
 }

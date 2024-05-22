@@ -4,12 +4,12 @@ import { clients } from 'shared/config/clients';
 import { dataSource } from 'storage';
 import { User } from 'storage/entities/User';
 import { tokenUtils } from 'shared/utils/tokenUtils';
-import { ITokensDto } from 'services/auth/dto/res/ITokensDto';
-import { IGoogleSignIn } from 'services/auth/dto/req/IGoogleSignIn';
+import { ITokensDto } from 'shared/dto/ITokensDto';
+import { IGoogleSignIn } from './dto/IGoogleSignIn';
 
 const oauth2Client = new OAuth2Client();
 
-type TGoogleSignInMethod = RequestHandler<{}, ITokensDto | string, IGoogleSignIn>;
+type TGoogleSignInController = RequestHandler<{}, ITokensDto | string, IGoogleSignIn>;
 
 /**
  * @swagger
@@ -25,7 +25,6 @@ type TGoogleSignInMethod = RequestHandler<{}, ITokensDto | string, IGoogleSignIn
  *             $ref: '#/components/schemas/IGoogleSignIn'
  *     responses:
  *       200:
- *         description: The created book.
  *         content:
  *           application/json:
  *             schema:
@@ -38,7 +37,7 @@ type TGoogleSignInMethod = RequestHandler<{}, ITokensDto | string, IGoogleSignIn
  *         description: Some server error
  *
  */
-export const googleSignIn: TGoogleSignInMethod = async (req, res) => {
+export const googleSignIn: TGoogleSignInController = async (req, res) => {
   const { idToken } = req.body || {};
 
   if (!idToken) return res.status(400).send('Invalid id');

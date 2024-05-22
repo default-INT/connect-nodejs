@@ -1,0 +1,1 @@
+export { toPoint } from './toPoint';
