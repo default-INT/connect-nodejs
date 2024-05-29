@@ -18,7 +18,7 @@ type TAddEventRequest = RequestHandler<{}, number | string, IAddEventRequest>;
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/IAddEventRequest'
+ *             $ref: '#/definitions/IAddEventRequest'
  *     responses:
  *       200:
  *         description: The created event.

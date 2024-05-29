@@ -17,7 +17,7 @@ type TGetCurrentUserMethod = RequestHandler<{}, IUserDto | string>;
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/IUserDto'
+ *               $ref: '#/definitions/IUserDto'
  *       403:
  *         description: Validation error
  *       500:

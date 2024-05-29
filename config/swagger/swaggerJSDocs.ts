@@ -1,5 +1,5 @@
 import swaggerJsdoc, { OAS3Definition } from 'swagger-jsdoc';
-import { genSwaggerSchemas } from './genSwaggerSchemas';
+import schema from './type-schemas.json';
 
 const definition: OAS3Definition = {
   openapi: '3.0.0',
@@ -26,18 +26,16 @@ const definition: OAS3Definition = {
   },
 };
 
-export const swaggerJSDocs = async () => {
-  const schemas = await genSwaggerSchemas();
+export const swaggerJSDocs = () => {
+  const schemas = schema.definitions;
 
-  return swaggerJsdoc({
+  const options = {
     apis: ['./src/services/**/*.ts'],
     definition: {
       ...definition,
-      schemas,
-      components: {
-        ...definition.components,
-        schemas,
-      },
+      definitions: schemas,
     },
-  });
+  };
+
+  return swaggerJsdoc(options);
 };

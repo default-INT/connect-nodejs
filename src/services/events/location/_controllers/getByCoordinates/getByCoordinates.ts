@@ -35,7 +35,7 @@ type TGetByCoordinates = RequestHandler<{}, IEventDto[] | string, {}, IGetByCoor
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/IEventDto'
+ *                 $ref: '#/definitions/IEventDto'
  *       403:
  *         description: Forbidden
  *       500:

@@ -21,7 +21,7 @@ const port = process.env.PORT || 3001;
       cliLogger.error(error);
     });
 
-  const specs = await swaggerJSDocs();
+  const specs = swaggerJSDocs();
 
   app.use(bodyParser.json());
   app.use(loggerMiddleware);

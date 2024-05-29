@@ -70,3 +70,6 @@ typings/
 #in memory mongo
 globalConfigMongo.json
 crtx
+
+# swagger
+config/swagger/type-schemas.json
