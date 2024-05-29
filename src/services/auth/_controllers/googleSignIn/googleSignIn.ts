@@ -22,13 +22,13 @@ type TGoogleSignInController = RequestHandler<{}, ITokensDto | string, IGoogleSi
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/IGoogleSignIn'
+ *             $ref: '#/definitions/IGoogleSignIn'
  *     responses:
  *       200:
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/ITokensDto'
+ *               $ref: '#/definitions/ITokensDto'
  *       400:
  *         description: Invalid token id
  *       403:

@@ -1,6 +1,7 @@
 import { Column, Entity, ManyToOne, OneToOne } from 'typeorm';
 import { User } from 'storage/entities/User';
 import { Location } from 'storage/entities/Location';
+import { EventType } from 'shared/dto/EventType';
 import { BaseEntity } from './BaseEntity';
 
 @Entity({ name: 'events' })
@@ -11,8 +12,12 @@ export class Event extends BaseEntity {
   @Column({ type: 'varchar' })
   description: string;
 
-  @Column({ type: 'varchar' })
-  eventType: string;
+  @Column({
+    type: 'enum',
+    enum: EventType,
+    default: EventType.Other,
+  })
+  eventType: EventType;
 
   @Column({ type: 'datetime' })
   finishDate: Date;

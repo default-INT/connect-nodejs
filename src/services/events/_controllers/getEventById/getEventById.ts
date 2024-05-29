@@ -23,7 +23,7 @@ type TGetEventByIdResponse = RequestHandler<{}, IEventDto | string, {}, { id: nu
  *         content:
  *           application/json::
  *             schema:
- *               $ref: '#/components/schemas/IEventDto'
+ *               $ref: '#/definitions/IEventDto'
  *       403:
  *         description: Forbidden
  *       500:
