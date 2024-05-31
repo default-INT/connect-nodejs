@@ -3,6 +3,7 @@ import { IEventDto } from 'services/events/dto/IEventDto';
 import { dataSource } from 'storage';
 import { Location } from 'storage/entities/Location';
 import { toPoint } from 'shared/utils/converter/toPoint';
+import { ForbiddenError } from 'shared/errors/403/ForbiddenError';
 import { mapToCoordsEventList } from './utils/mapToCoordsEventList';
 import { IGetByCoordsRequest } from './dto/IGetByCoordsRequest';
 
@@ -36,6 +37,8 @@ type TGetByCoordinates = RequestHandler<{}, IEventDto[] | string, {}, IGetByCoor
  *               type: array
  *               items:
  *                 $ref: '#/definitions/IEventDto'
+ *       400:
+ *         description: Validation error
  *       403:
  *         description: Forbidden
  *       500:
@@ -44,7 +47,7 @@ type TGetByCoordinates = RequestHandler<{}, IEventDto[] | string, {}, IGetByCoor
  */
 export const getByCoordinates: TGetByCoordinates = async (req, res) => {
   const { currentUser } = req;
-  if (!currentUser) return res.status(403).send('Forbidden');
+  if (!currentUser) throw new ForbiddenError();
   const { latitude, longitude, radius } = req.query;
   const point = toPoint(latitude, longitude);
 

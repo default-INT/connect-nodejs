@@ -1,3 +1,3 @@
 export interface IGoogleSignIn {
-  idToken?: string | null;
+  idToken: string;
 }

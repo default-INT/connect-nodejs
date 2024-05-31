@@ -1,6 +1,8 @@
 import { RequestHandler } from 'express';
 import { Event } from 'storage/entities/Event';
 import { dataSource } from 'storage';
+import { ForbiddenError } from 'shared/errors/403/ForbiddenError';
+import { NotFoundResource } from 'shared/errors/404/NotFoundResource';
 
 type TDeleteEventByIdRequest = RequestHandler<{}, {}, {}, { id: number }>;
 
@@ -23,6 +25,8 @@ type TDeleteEventByIdRequest = RequestHandler<{}, {}, {}, { id: number }>;
  *             schema:
  *               type: number
  *               example: 1
+ *       400:
+ *         description: Validation error
  *       403:
  *         description: Forbidden
  *       500:
@@ -31,7 +35,7 @@ type TDeleteEventByIdRequest = RequestHandler<{}, {}, {}, { id: number }>;
  */
 export const deleteEventById: TDeleteEventByIdRequest = async (req, res) => {
   const { currentUser, query: { id } } = req;
-  if (!currentUser) return res.status(400).json('Current user does not exist');
+  if (!currentUser) throw new ForbiddenError();
   const { id: ownerId } = currentUser;
   const eventRepository = dataSource.getRepository(Event);
 
@@ -42,8 +46,8 @@ export const deleteEventById: TDeleteEventByIdRequest = async (req, res) => {
     },
   });
 
-  if (existEvent?.ownerId !== ownerId) return res.sendStatus(403).send('Forbidden');
-  if (!existEvent) return res.sendStatus(404).send('No exist');
+  if (existEvent?.ownerId !== ownerId) throw new ForbiddenError();
+  if (!existEvent) throw new NotFoundResource(`Not found event with id=${id}`);
 
   await eventRepository.remove(existEvent);
 

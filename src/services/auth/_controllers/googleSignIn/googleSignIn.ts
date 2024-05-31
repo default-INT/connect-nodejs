@@ -5,6 +5,7 @@ import { dataSource } from 'storage';
 import { User } from 'storage/entities/User';
 import { tokenUtils } from 'shared/utils/tokenUtils';
 import { ITokensDto } from 'shared/dto/ITokensDto';
+import { ValidationError } from 'shared/errors/400/ValidationError';
 import { IGoogleSignIn } from './dto/IGoogleSignIn';
 
 const oauth2Client = new OAuth2Client();
@@ -30,26 +31,22 @@ type TGoogleSignInController = RequestHandler<{}, ITokensDto | string, IGoogleSi
  *             schema:
  *               $ref: '#/definitions/ITokensDto'
  *       400:
- *         description: Invalid token id
- *       403:
  *         description: Validation error
  *       500:
  *         description: Some server error
  *
  */
 export const googleSignIn: TGoogleSignInController = async (req, res) => {
-  const { idToken } = req.body || {};
-
-  if (!idToken) return res.status(400).send('Invalid id');
+  const { idToken } = req.body;
 
   const ticket = await oauth2Client.verifyIdToken({
     idToken,
     audience: clients,
-  });
+  }).catch(() => { throw new ValidationError('Verification failed'); });
 
   const payload = ticket.getPayload();
   const googleId = payload?.sub;
-  if (!googleId) return res.status(403).send('Validation error');
+  if (!googleId) throw new ValidationError('Incorrect idToken');
   const userRepository = dataSource.getRepository(User);
   const user = await userRepository.findOneBy({ googleId });
 

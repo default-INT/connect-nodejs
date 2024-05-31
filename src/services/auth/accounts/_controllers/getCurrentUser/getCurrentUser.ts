@@ -1,6 +1,7 @@
 import { RequestHandler } from 'express';
 import { dataSource } from 'storage';
 import { User } from 'storage/entities/User';
+import { NotFoundResource } from 'shared/errors/404/NotFoundResource';
 import { IUserDto } from './dto/IUserDto';
 import { mapToUserDto } from './utils/mapToUserDto';
 
@@ -18,21 +19,21 @@ type TGetCurrentUserMethod = RequestHandler<{}, IUserDto | string>;
  *           application/json:
  *             schema:
  *               $ref: '#/definitions/IUserDto'
- *       403:
- *         description: Validation error
+ *       404:
+ *         description: User not found
  *       500:
  *         description: Some server error
  */
 export const getCurrentUser: TGetCurrentUserMethod = async (req, res) => {
   const { currentUser } = req;
-  if (!currentUser) return res.status(400).json('Current user does not exist');
+  if (!currentUser) throw new NotFoundResource('User');
   const userRepository = dataSource.getRepository(User);
 
   const user = await userRepository.findOneBy({
     id: currentUser.id,
   });
 
-  if (!user) return res.status(403).json('Current user does not exist');
+  if (!user) throw new NotFoundResource('User');
 
   return res.status(200).json(mapToUserDto(user));
 };
