@@ -3,6 +3,7 @@ import { dataSource } from 'storage';
 import { toPoint } from 'shared/utils/converter/toPoint';
 import { Location } from 'storage/entities/Location';
 import { Event } from 'storage/entities/Event';
+import { UnauthorizedError } from 'shared/errors/401/UnauthorizedError';
 import { IAddEventRequest } from './dto/IAddEventRequest';
 
 type TAddEventRequest = RequestHandler<{}, number | string, IAddEventRequest>;
@@ -27,7 +28,7 @@ type TAddEventRequest = RequestHandler<{}, number | string, IAddEventRequest>;
  *             schema:
  *               type: number
  *               example: 1
- *       403:
+ *       400:
  *         description: Validation error
  *       500:
  *         description: Some server error
@@ -35,7 +36,7 @@ type TAddEventRequest = RequestHandler<{}, number | string, IAddEventRequest>;
  */
 export const addEvent: TAddEventRequest = async (req, res) => {
   const { currentUser, body: rawEvent } = req;
-  if (!currentUser) return res.status(400).json('Current user does not exist');
+  if (!currentUser) throw new UnauthorizedError();
 
   const ownerId = currentUser.id;
   const { coords } = rawEvent.location || {};
@@ -59,5 +60,5 @@ export const addEvent: TAddEventRequest = async (req, res) => {
 
   const event = await eventRepo.save(eventByRepo);
 
-  return res.sendStatus(200).send(event.id);
+  return res.status(200).json(event.id);
 };
