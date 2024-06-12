@@ -1,6 +1,5 @@
-import { Column, Entity, ManyToOne, OneToOne } from 'typeorm';
+import { Column, Entity, ManyToOne } from 'typeorm';
 import { User } from 'storage/entities/User';
-import { Location } from 'storage/entities/Location';
 import { EventType } from 'shared/dto/EventType';
 import { BaseEntity } from './BaseEntity';
 
@@ -9,8 +8,8 @@ export class Event extends BaseEntity {
   @Column({ type: 'varchar' })
   title: string;
 
-  @Column({ type: 'varchar' })
-  description: string;
+  @Column({ type: 'varchar', nullable: true })
+  description: string | null;
 
   @Column({
     type: 'enum',
@@ -20,7 +19,7 @@ export class Event extends BaseEntity {
   eventType: EventType;
 
   @Column({ type: 'datetime' })
-  finishDate: Date;
+  eventDate: Date;
 
   @Column({ type: 'int', nullable: true })
   maxParticipants: number | null;
@@ -31,12 +30,15 @@ export class Event extends BaseEntity {
   // TODO: In here we need relations like: Event -> Chat > User[], and user can get Event by Chat
   // participants: User[];
 
+  @Column('geometry', {
+    spatialFeatureType: 'Point',
+    srid: 4326,
+  })
+  coords: string;
+
   @Column({ nullable: true })
   ownerId: number;
 
   @ManyToOne(() => User, user => user.myEvents, { onDelete: 'CASCADE' })
   owner: User | null;
-
-  @OneToOne(() => Location, location => location.event, { onDelete: 'CASCADE' })
-  location: Location | null;
 }

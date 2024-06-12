@@ -41,9 +41,6 @@ export const deleteEventById: TDeleteEventByIdRequest = async (req, res) => {
 
   const existEvent = await eventRepository.findOne({
     where: { id },
-    relations: {
-      location: true,
-    },
   });
 
   if (existEvent?.ownerId !== ownerId) throw new ForbiddenError();
