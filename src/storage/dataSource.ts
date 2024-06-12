@@ -3,7 +3,6 @@ import * as fs from 'fs';
 import { DataSource } from 'typeorm';
 import { Event } from './entities/Event';
 import { User } from './entities/User';
-import { Location } from './entities/Location';
 
 export const dataSource = new DataSource({
   type: 'mysql',
@@ -14,7 +13,7 @@ export const dataSource = new DataSource({
   database: process.env.DB_DATABASE_NAME,
   synchronize: true,
   logging: true,
-  entities: [User, Event, Location],
+  entities: [User, Event],
   ssl: {
     ca: fs.readFileSync(`${__dirname}/crtx/mysql-ca.pem`),
   },

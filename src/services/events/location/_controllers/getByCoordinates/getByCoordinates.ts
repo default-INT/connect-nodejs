@@ -1,10 +1,10 @@
 import { RequestHandler } from 'express';
 import { IEventDto } from 'services/events/dto/IEventDto';
 import { dataSource } from 'storage';
-import { Location } from 'storage/entities/Location';
+import { Event } from 'storage/entities/Event';
 import { toPoint } from 'shared/utils/converter/toPoint';
 import { ForbiddenError } from 'shared/errors/403/ForbiddenError';
-import { mapToCoordsEventList } from './utils/mapToCoordsEventList';
+import { mapToEventDto } from 'services/events/utils/mapToEventDto';
 import { IGetByCoordsRequest } from './dto/IGetByCoordsRequest';
 
 type TGetByCoordinates = RequestHandler<{}, IEventDto[] | string, {}, IGetByCoordsRequest>;
@@ -51,16 +51,15 @@ export const getByCoordinates: TGetByCoordinates = async (req, res) => {
   const { latitude, longitude, radius } = req.query;
   const point = toPoint(latitude, longitude);
 
-  // NOTE: for optimistic query, check file ./optimistic-search.sql
-  // also in future make sens use local user time
-  const locationResult = await dataSource.getRepository(Location)
-    .createQueryBuilder('loc')
-    .innerJoinAndSelect('loc.event', 'e')
-    .where('e.finishDate > NOW()')
-    .andWhere('(ST_Distance_Sphere(loc.coords,  ST_GeomFromText(:point, 4326))) <= :radius', {
+  const events = await dataSource.getRepository(Event)
+    .createQueryBuilder('event')
+    .where('event.eventDate > NOW()')
+    .andWhere('(ST_Distance_Sphere(event.coords,  ST_GeomFromText(:point, 4326))) <= :radius', {
       radius, point,
     })
     .getMany();
 
-  return res.status(200).json(mapToCoordsEventList(locationResult));
+  const formatedEvents = events.map(mapToEventDto);
+
+  return res.status(200).json(formatedEvents);
 };

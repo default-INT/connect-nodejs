@@ -1,1 +1,0 @@
-export { mapToCoordsEventList } from './mapToCoordsEventList';

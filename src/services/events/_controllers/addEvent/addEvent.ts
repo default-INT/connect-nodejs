@@ -1,7 +1,6 @@
 import { RequestHandler } from 'express';
 import { dataSource } from 'storage';
 import { toPoint } from 'shared/utils/converter/toPoint';
-import { Location } from 'storage/entities/Location';
 import { Event } from 'storage/entities/Event';
 import { UnauthorizedError } from 'shared/errors/401/UnauthorizedError';
 import { IAddEventRequest } from './dto/IAddEventRequest';
@@ -39,23 +38,14 @@ export const addEvent: TAddEventRequest = async (req, res) => {
   if (!currentUser) throw new UnauthorizedError();
 
   const ownerId = currentUser.id;
-  const { coords } = rawEvent.location || {};
-  const locationRepo = dataSource.getRepository(Location);
+  const { coords } = rawEvent;
   const eventRepo = dataSource.getRepository(Event);
-
-  const rawLocation = {
-    ...rawEvent.location,
-    coords: coords ? toPoint(coords.latitude, coords.longitude) : null,
-  };
-
-  const locationByRepo = locationRepo.create(rawLocation);
-  const location = await locationRepo.save(locationByRepo);
 
   const eventByRepo = eventRepo.create({
     ...rawEvent,
-    finishDate: new Date(rawEvent.finishDate),
+    coords: toPoint(coords.latitude, coords.longitude),
+    eventDate: new Date(rawEvent.eventDate),
     ownerId,
-    location,
   });
 
   const event = await eventRepo.save(eventByRepo);

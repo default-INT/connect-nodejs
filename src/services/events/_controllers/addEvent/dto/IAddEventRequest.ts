@@ -1,12 +1,12 @@
 import { EventType } from 'shared/dto/EventType';
-import { ILocation } from '../../../dto/ILocation';
+import { ICoordinates } from 'services/events/dto/ICoordinates';
 
 export interface IAddEventRequest {
   title: string;
-  description: string;
   eventType: EventType;
-  finishDate: string;
-  maxParticipants?: number;
+  coords: ICoordinates;
+  eventDate: string;
   lang?: string;
-  location: ILocation;
+  maxParticipants?: number;
+  description?: string;
 }
