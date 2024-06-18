@@ -53,6 +53,7 @@ export const getByCoordinates: TGetByCoordinates = async (req, res) => {
 
   const events = await dataSource.getRepository(Event)
     .createQueryBuilder('event')
+    .leftJoinAndSelect('event.lang', 'lang')
     .where('event.eventDate > NOW()')
     .andWhere('(ST_Distance_Sphere(event.coords,  ST_GeomFromText(:point, 4326))) <= :radius', {
       radius, point,
