@@ -1,5 +1,6 @@
 import { EventType } from 'shared/dto/EventType';
 import { ICoordinates } from 'services/events/dto/ICoordinates';
+import { ILanguageDto } from 'shared/dto/ILanguageDto';
 
 export interface IEventDto {
   id: number;
@@ -7,7 +8,7 @@ export interface IEventDto {
   eventType: EventType;
   coords: ICoordinates | null;
   eventDate: string;
-  lang?: string | null;
+  lang?: ILanguageDto | null;
   maxParticipants?: number | null;
   description?: string | null;
 }

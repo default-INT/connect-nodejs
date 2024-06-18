@@ -6,7 +6,7 @@ export interface IAddEventRequest {
   eventType: EventType;
   coords: ICoordinates;
   eventDate: string;
-  lang?: string;
+  langId?: number;
   maxParticipants?: number;
   description?: string;
 }

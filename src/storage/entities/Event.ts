@@ -1,6 +1,7 @@
 import { Column, Entity, ManyToOne } from 'typeorm';
 import { User } from 'storage/entities/User';
 import { EventType } from 'shared/dto/EventType';
+import { Language } from 'storage/entities/Language';
 import { BaseEntity } from './BaseEntity';
 
 @Entity({ name: 'events' })
@@ -24,8 +25,11 @@ export class Event extends BaseEntity {
   @Column({ type: 'int', nullable: true })
   maxParticipants: number | null;
 
-  @Column({ type: 'varchar', nullable: true })
-  lang: string | null;
+  @Column({ nullable: true })
+  langId: number;
+
+  @ManyToOne(() => Language, lang => lang.events)
+  lang: Language | null;
 
   // TODO: In here we need relations like: Event -> Chat > User[], and user can get Event by Chat
   // participants: User[];
