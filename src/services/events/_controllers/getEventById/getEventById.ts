@@ -41,6 +41,7 @@ export const getEventById:TGetEventByIdResponse = async (req, res) => {
 
   const event = await eventRepo.findOne({
     where: { id },
+    relations: ['lang', 'owner'],
   });
 
   if (!event) throw new NotFoundResource('Event by id not found');
