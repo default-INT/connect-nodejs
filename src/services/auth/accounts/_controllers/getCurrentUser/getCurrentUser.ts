@@ -2,8 +2,8 @@ import { RequestHandler } from 'express';
 import { dataSource } from 'storage';
 import { User } from 'storage/entities/User';
 import { NotFoundResource } from 'shared/errors/404/NotFoundResource';
-import { IUserDto } from './dto/IUserDto';
-import { mapToUserDto } from './utils/mapToUserDto';
+import { IUserDto } from 'shared/dto/IUserDto';
+import { mapToUserDto } from 'shared/dto/mappers/mapToUserDto';
 
 type TGetCurrentUserMethod = RequestHandler<{}, IUserDto | string>;
 
