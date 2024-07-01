@@ -1,0 +1,5 @@
+[build.nixpacksPlan.phases.build]
+cmds = ["npm run gen-schemas", "npm run build:dev"]
+
+[start]
+command = "node ./build/index.js"

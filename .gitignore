@@ -66,10 +66,19 @@ typings/
 
 # dotenv environment variables file
 .env
+.env.*
+!.env.vault
 
 #in memory mongo
 globalConfigMongo.json
 crtx
+*.pem
 
 # swagger
 config/swagger/type-schemas.json
+.vercel
+
+.env*
+.flaskenv*
+!.env.project
+!.env.vault

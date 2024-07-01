@@ -1,6 +1,6 @@
-import process from 'process';
+import { env } from 'shared/config/env';
 
 export const clients = [
-  process.env.WEB_CLIENT_ID,
-  process.env.IOS_CLIENT_ID,
+  env.WEB_CLIENT_ID,
+  env.IOS_CLIENT_ID,
 ] as string[];

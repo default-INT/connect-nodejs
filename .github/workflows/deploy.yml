@@ -1,0 +1,47 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - master
+  workflow_run:
+    workflows: [ "Validation" ]
+    types:
+      - completed
+
+jobs:
+  build-and-deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20.10.0'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Generate swagger schema
+        run: npm run gen-schemas
+
+      - name: Type check with TypeScript
+        run: npm run tsc
+
+      - name: Linting project
+        run: npm run lint
+
+      - name: Build application
+        run: npm run build:dev
+
+      - name: Install Railway
+        run: npm i -g @railway/cli
+
+      - name: Deploy
+        run: railway up -s connect
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}

@@ -1,1 +1,3 @@
-export const appVersion = process.env.npm_package_version;
+import { env } from 'shared/config/env';
+
+export const appVersion = env.npm_package_version;

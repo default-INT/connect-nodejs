@@ -2,23 +2,25 @@
   "name": "nodejs",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "gen-schemas": " npx ts-json-schema-generator --path './src/**/dto/*.ts' -f './tsconfig.json' > ./config/swagger/type-schemas.json",
-    "start": "NODE_ENV=development webpack --watch --env --config webpack.config.js",
+    "start": "NODE_ENV=development webpack --env runLocally --config webpack.config.js",
     "clean:dev": "rimraf build",
     "clean:prod": "rimraf dist",
     "lint": "eslint ./src",
     "tsc": "npx tsc --noEmit",
     "dev": "nodemon build/index.js --watch build",
-    "prod": "nodemon dist/index.js --watch dist",
+    "prod": "nodemon build/index.js --watch build",
     "build:prod": "NODE_ENV=production webpack",
-    "build:dev": "NODE_ENV=development webpack",
-    "start:dev": "NODE_ENV=development nodemon ./index.ts"
+    "build:dev": "NODE_ENV=development webpack"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "engines": {
+    "node": "20"
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
