@@ -16,7 +16,7 @@ export const dataSource = new DataSource({
   logging: true,
   entities: [User, Event, Language],
   ssl: {
-    ca: fs.readFileSync(`${__dirname}/crtx/mysql-ca.pem`),
+    ca: process.env.MYSQL_SSL_CA_CERT || fs.readFileSync(`${__dirname}/mysql-ca.pem`),
   },
   legacySpatialSupport: false,
 });
