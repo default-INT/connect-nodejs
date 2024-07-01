@@ -1,6 +1,6 @@
-import process from 'process';
+import { env } from 'shared/config/env';
 
 export const jwtSecrets = {
-  accessTokenSecret: process.env.JWT_ACCESS_SECRET,
-  refreshTokenSecret: process.env.JWT_REFRESH_SECRET,
+  accessTokenSecret: env.JWT_ACCESS_SECRET,
+  refreshTokenSecret: env.JWT_REFRESH_SECRET,
 };

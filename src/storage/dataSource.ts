@@ -1,22 +1,21 @@
-import process from 'process';
-import * as fs from 'fs';
 import { DataSource } from 'typeorm';
+import { env } from 'shared/config/env';
 import { Event } from './entities/Event';
 import { User } from './entities/User';
 import { Language } from './entities/Language';
 
 export const dataSource = new DataSource({
   type: 'mysql',
-  host: process.env.DB_HOST,
-  port: Number(process.env.DB_PORT) || 5432,
-  username: process.env.DB_USERNAME,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE_NAME,
+  host: env.DB_HOST,
+  port: Number(env.DB_PORT) || 5432,
+  username: env.DB_USERNAME,
+  password: env.DB_PASSWORD,
+  database: env.DB_DATABASE_NAME,
   synchronize: true,
   logging: true,
   entities: [User, Event, Language],
   ssl: {
-    ca: fs.readFileSync(`${__dirname}/crtx/mysql-ca.pem`),
+    ca: env.MYSQL_SSL_CA_CERT,
   },
   legacySpatialSupport: false,
 });

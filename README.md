@@ -6,7 +6,10 @@
 This is a Node.js application with TypeScript and Webpack.
 
 ## Introduction
-Welcome to Connect! This is a React Native project designed to [briefly describe what your project does or its purpose].
+Welcome to Connect! This is a Node.js project which implement API for mobile app. 
+Designed to [briefly describe what your project does or its purpose].
+
+Swagger - Dev: https://connect-development.up.railway.app/swagger/
 
 ## Installation
 
@@ -25,8 +28,7 @@ Welcome to Connect! This is a React Native project designed to [briefly describe
 
 Also for correctly program work, you need to set up env variables
 
-1. Certificate for database `./crtx/mysql-ca.pem`
-2. Define variables in `.env` file
+1. Define variables in `.env` file (or pull its `npx dotenv-vault@latest pull`)
 
 `.env` file example:
 ```text
@@ -41,7 +43,15 @@ IOS_CLIENT_ID=<IOS_CLIENT_ID>
 
 JWT_ACCESS_SECRET=<JWT_ACCESS_SECRET>
 JWT_REFRESH_SECRET=<JWT_REFRESH_SECRET>
+MYSQL_SSL_CA_CERT=<MYSQL_SSL_CA_CERT>
 ```
 
-### Development Mode
-To run the application in development mode with live reloading, use the following command: `npm run serve`
+## Development Mode
+
+To run the application in development mode with live reloading, use the following command: `npm run start`
+
+## Deploy 
+
+Deploy to dev environment occurs automatically after merging PR in `master`.
+
+But if you wanna manually start deploy, you need run command: `railway up`.
